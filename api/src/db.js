@@ -21,7 +21,7 @@ fs.readdirSync(path.join(__dirname, '/models'))
     modelDefiners.push(require(path.join(__dirname, '/models', file)));
   });
 
-// Injectamos la conexion (sequelize) a todos los modelos
+// Inyectamos la conexión (sequelize) a todos los modelos
 modelDefiners.forEach(model => model(sequelize));
 // Capitalizamos los nombres de los modelos ie: product => Product
 let entries = Object.entries(sequelize.models);
@@ -32,10 +32,32 @@ sequelize.models = Object.fromEntries(capsEntries);
 // Para relacionarlos hacemos un destructuring
 const { Videogame } = sequelize.models;
 
-// Aca vendrian las relaciones
+// Aca vendrían las relaciones
 // Product.hasMany(Reviews);
+
+class DataBase {
+  constructor(dataBase) {
+    this.dataBase = dataBase
+  }
+  async getGenres() {
+    return []
+  }
+  async getGames(p) {
+    return []
+  }
+  async getGameByID(id) {
+    return {}
+  }
+  async getGamesByName(name) {
+    return []
+  }
+  async postGame(game) {
+    return {success:true}
+  }
+}
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
-  conn: sequelize,     // para importart la conexión { conn } = require('./db.js');
+  conn: sequelize,     // para importar la conexión { conn } = require('./db.js');
+  dataBase : new DataBase(sequelize),
 };
