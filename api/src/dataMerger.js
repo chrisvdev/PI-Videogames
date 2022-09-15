@@ -7,15 +7,12 @@ class DataMerger {
     this.internal = internal;
   }
   async getGenres() {
-    let external = await this.external.getGenres();
-    let internal = await this.internal.getGenres();
-    if (!Array.isArray(external)) return external;
-    if (!Array.isArray(internal)) return internal;
-    return [...internal, ...external];
+    return await this.internal.getGenres();
   }
   async getGames(p) {
-    let external = await this.external.getGames(p);
-    let internal = await this.internal.getGames(p);
+    let internal = await this.internal.getGames();
+    let external = await this.external.getGames(p ? p : 5);
+    console.log(internal);
     if (!Array.isArray(external)) return external;
     else
       external = external.map((game) => {
@@ -26,7 +23,18 @@ class DataMerger {
       internal = internal.map((game) => {
         return { ...game, id: `I${game.id}` };
       });
-    return [...internal, ...external];
+    return [...internal, ...external].map(
+      ({ id, name, genres, background_image }) => {
+        return {
+          id: id,
+          name: name,
+          genres: genres.map(({ id, name }) => {
+            return { id: id, name: name };
+          }),
+          background_image,
+        };
+      }
+    );
   }
   async getGameByID(id) {
     if (id.length > 1) {
@@ -36,13 +44,31 @@ class DataMerger {
       switch (location) {
         case "E":
           game = await this.external.getGameByID(lID);
-          return { ...game, id: `E${game.id}` };
+          game = {
+            ...game,
+            id: `E${game.id}`,
+            genres: game.genres.map(({ id, name }) => {
+              return { id: id, name: name };
+            }),
+          };
+          break;
         case "I":
           game = await this.internal.getGameByID(lID);
-          return { ...game, id: `E${game.id}` };
+          game = { ...game, id: `I${game.id}` };
+          break;
         default:
           return { error: "Bad ID" };
       }
+      return {
+        id: game.id,
+        name: game.name,
+        genres: game.genres,
+        background_image: game.background_image,
+        description: game.description,
+        released: game.released,
+        rating: game.rating,
+        parent_platforms: game.parent_platforms,
+      };
     } else return { error: "Bad ID" };
   }
   async getGamesByName(name) {
@@ -58,7 +84,12 @@ class DataMerger {
       internal = internal.map((game) => {
         return { ...game, id: `I${game.id}` };
       });
-    return [...internal, ...external];
+    const result = [...internal, ...external];
+    return result.length > 0
+      ? result.slice(0, 15).map(({ id, name }) => {
+          return { id: id, name: name };
+        })
+      : { notFound: `no games found like ${name}` };
   }
   async postGame(game) {
     return await this.internal.postGame(game);
