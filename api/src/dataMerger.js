@@ -24,10 +24,11 @@ class DataMerger {
         return { ...game, id: `I${game.id}` };
       });
     return [...internal, ...external].map(
-      ({ id, name, genres, background_image }) => {
+      ({ id, name, rating, genres, background_image }) => {
         return {
           id: id,
           name: name,
+          rating: rating,
           genres: genres.map(({ id, name }) => {
             return { id: id, name: name };
           }),
