@@ -53,6 +53,14 @@ Está permitido, __bajo su responsabilidad__, actualizar las dependencias a vers
 
 > __IMPORTANTE:__ Versiones mas actuales podrían presentar configuraciones diferentes respecto a las versiones en las que venimos trabajando durante el bootcamp.
 
+> __Y si... tome esa responsabilidad:__ últimamente vengo usando las ultimas versiones de casi todo asi que las versiones usadas en ese PI son:
+
+- __react__: 18.2.0
+- __react-dom__: 18.2.0
+- __react-router-dom__: 6.4.0
+- __redux__: __No se instala!__ Desde la web oficial de Redux recomiendan dejarlo de usar en pos a empezar a usar Redux Toolkit y el paquete de React-Redux ya lo integra.
+- __react-redux__: 8.0.2
+
 ## BoilerPlate
 
 El boilerplate cuenta con dos carpetas: `api` y `client`. En estas carpetas estará el código del back-end y el front-end respectivamente.
