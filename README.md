@@ -58,7 +58,8 @@ Está permitido, __bajo su responsabilidad__, actualizar las dependencias a vers
 - __react__: 18.2.0
 - __react-dom__: 18.2.0
 - __react-router-dom__: 6.4.0
-- __redux__: __No se instala!__ Desde la web oficial de Redux recomiendan dejarlo de usar en pos a empezar a usar Redux Toolkit y el paquete de React-Redux ya lo integra.
+- __redux__: __No se instala!__ Desde la web oficial de Redux recomiendan dejarlo de usar en pos a empezar a usar Redux Toolkit
+- __@reduxjs/toolkit__: 1.8.5
 - __react-redux__: 8.0.2
 
 ## BoilerPlate
