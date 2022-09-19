@@ -46,6 +46,7 @@ export const apiSlice = createSlice({
       state = {
         ...state,
         filterByGenre: action.payload,
+        page: 0,
         display: [{ loading: true }],
       };
     },
@@ -53,6 +54,7 @@ export const apiSlice = createSlice({
       state = {
         ...state,
         filterBySource: action.payload,
+        page: 0,
         display: [{ loading: true }],
       };
     },
@@ -61,6 +63,7 @@ export const apiSlice = createSlice({
         ...state,
         sortByName: action.payload,
         sortByRating: null,
+        page: 0,
         display: [{ loading: true }],
       };
     },
@@ -69,23 +72,64 @@ export const apiSlice = createSlice({
         ...state,
         sortByName: null,
         sortByRating: action.payload,
+        page: 0,
         display: [{ loading: true }],
       };
     },
     display: (state) => {
-      state = { ...state };
+      let toDisplay = JSON.parse(JSON.stringify(state.games));
+      if (!toDisplay[0].loading) {
+        state.filterByGenre &&
+          (toDisplay = toDisplay.filter((game) =>
+            game.genres.find((genre) => genre.id === state.filterByGenre)
+          ));
+        state.filterBySource &&
+          (toDisplay = toDisplay.filter(
+            (game) => game.id[0] === state.filterBySource
+          ));
+        state.sortByName &&
+          (toDisplay = toDisplay.sort((g1, g2) => {
+            return (
+              g1.name.toLowerCase().localeCompare(g2.name.toLowerCase()) *
+              state.sortByName
+            );
+          }));
+        state.sortByRating &&
+          (toDisplay = toDisplay.sort(
+            (g1, g2) => (g1.rating - g2.rating) * state.sortByRating
+          ));
+      }
+      state = { ...state, display: toDisplay };
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getGames.pending, (state) => {
-        state = { ...state, games: [{ loading: true }] };
+        state = {
+          ...state,
+          games: [{ loading: true }],
+          filterByGenre: 0,
+          filterBySource: null,
+          sortByName: null,
+          sortByRating: null,
+          page: 0,
+          display: [{ loading: true }],
+        };
       })
       .addCase(getGames.fulfilled, (state, action) => {
         state = { ...state, games: action.payload };
       })
       .addCase(getGamesByName.pending, (state) => {
-        state = { ...state, games: [{ loading: true }] };
+        state = {
+          ...state,
+          games: [{ loading: true }],
+          filterByGenre: 0,
+          filterBySource: null,
+          sortByName: null,
+          sortByRating: null,
+          page: 0,
+          display: [{ loading: true }],
+        };
       })
       .addCase(getGamesByName.fulfilled, (state, action) => {
         state = { ...state, games: action.payload };
@@ -104,6 +148,15 @@ export const apiSlice = createSlice({
       });
   },
 });
+
+export const selectGame = (state) => state.game;
+export const selectGenres = (state) => state.genres;
+export const selectGenreFilter = (state) => state.filterByGenre;
+export const selectSourceFilter = (state) => state.filterBySource;
+export const selectNameSort = (state) => state.sortByName;
+export const selectRatingSort = (state) => state.sortByRating;
+export const selectPage = (state) => state.page;
+export const selectDisplay = (state) => state.display;
 
 export const {
   filterByGenre,
