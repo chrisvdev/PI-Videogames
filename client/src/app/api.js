@@ -16,7 +16,6 @@ let initialState = {
   filterBySource: null,
   sortByName: null,
   sortByRating: null,
-  page: 0,
   display: [{ idle: FROM_START }],
 };
 
@@ -77,29 +76,24 @@ export const apiSlice = createSlice({
       state.filterBySource = null;
       state.sortByName = null;
       state.sortByRating = null;
-      state.page = 0;
       state.display = [{ idle: FROM_START }];
     },
     filterByGenre: (state, action) => {
       state.filterByGenre = action.payload;
-      state.page = 0;
       state.display = [{ toBeFilled: FROM_FILTER_OR_SORT }];
     },
     filterBySource: (state, action) => {
       state.filterBySource = action.payload;
-      state.page = 0;
       state.display = [{ toBeFilled: FROM_FILTER_OR_SORT }];
     },
     sortByName: (state, action) => {
       state.sortByName = action.payload;
       state.sortByRating = null;
-      state.page = 0;
       state.display = [{ toBeFilled: FROM_FILTER_OR_SORT }];
     },
     sortByRating: (state, action) => {
       state.sortByName = null;
       state.sortByRating = action.payload;
-      state.page = 0;
       state.display = [{ toBeFilled: FROM_FILTER_OR_SORT }];
     },
     display: (state) => {
@@ -136,7 +130,6 @@ export const apiSlice = createSlice({
         state.filterBySource = null;
         state.sortByName = null;
         state.sortByRating = null;
-        state.page = 0;
         state.display = [{ idle: FROM_GET_GAMES }];
       })
       .addCase(getGames.rejected, (state) => {
@@ -152,7 +145,6 @@ export const apiSlice = createSlice({
         state.filterBySource = null;
         state.sortByName = null;
         state.sortByRating = null;
-        state.page = 0;
         state.display = [{ idle: FROM_SEARCH_GAMES }];
       })
       .addCase(getGamesByName.rejected, (state) => {
@@ -190,7 +182,6 @@ export const selectGenreFilter = (state) => state.filterByGenre;
 export const selectSourceFilter = (state) => state.filterBySource;
 export const selectNameSort = (state) => state.sortByName;
 export const selectRatingSort = (state) => state.sortByRating;
-export const selectPage = (state) => state.page;
 export const selectDisplay = (state) => state.display;
 
 export const {
