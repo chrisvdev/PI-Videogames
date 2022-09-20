@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { display, getGames, selectDisplay, selectGame } from "./app/api";
+import { display, getGames, selectDisplay, selectGame } from "./store/api";
 import "./App.css";
 
 function App() {
