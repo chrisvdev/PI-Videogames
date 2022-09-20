@@ -1,16 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+export const FROM_GET_GAMES = "GET_GAMES";
+export const FROM_SEARCH_GAMES = "SEARCH_GAMES";
+export const FROM_SEARCH_GAME = "SEARCH_GAME";
+export const FROM_GET_GENRES = "GET_GENRES";
+export const FROM_FILTER_OR_SORT = "FILTER_OR_SORT";
+export const FROM_START = "START";
+
 let initialState = {
-  games: [{ loading: true }],
+  games: [{ start: true }],
   game: { noGame: true },
-  genres: [{ loading: true }],
+  genres: [{ start: true }],
   filterByGenre: 0,
   filterBySource: null,
   sortByName: null,
   sortByRating: null,
   page: 0,
-  display: [{ loading: true }],
+  display: [{ idle: FROM_START }],
 };
 
 export const getGames = createAsyncThunk("api/getGames", async () => {
@@ -62,39 +69,38 @@ export const apiSlice = createSlice({
   name: "api",
   initialState,
   reducers: {
+    start: (state) => {
+      state.games = [{ start: true }];
+      state.game = { noGame: true };
+      state.genres = [{ start: true }];
+      state.filterByGenre = 0;
+      state.filterBySource = null;
+      state.sortByName = null;
+      state.sortByRating = null;
+      state.page = 0;
+      state.display = [{ idle: FROM_START }];
+    },
     filterByGenre: (state, action) => {
-      state = {
-        ...state,
-        filterByGenre: action.payload,
-        page: 0,
-        display: [{ loading: true }],
-      };
+      state.filterByGenre = action.payload;
+      state.page = 0;
+      state.display = [{ toBeFilled: FROM_FILTER_OR_SORT }];
     },
     filterBySource: (state, action) => {
-      state = {
-        ...state,
-        filterBySource: action.payload,
-        page: 0,
-        display: [{ loading: true }],
-      };
+      state.filterBySource = action.payload;
+      state.page = 0;
+      state.display = [{ toBeFilled: FROM_FILTER_OR_SORT }];
     },
     sortByName: (state, action) => {
-      state = {
-        ...state,
-        sortByName: action.payload,
-        sortByRating: null,
-        page: 0,
-        display: [{ loading: true }],
-      };
+      state.sortByName = action.payload;
+      state.sortByRating = null;
+      state.page = 0;
+      state.display = [{ toBeFilled: FROM_FILTER_OR_SORT }];
     },
     sortByRating: (state, action) => {
-      state = {
-        ...state,
-        sortByName: null,
-        sortByRating: action.payload,
-        page: 0,
-        display: [{ loading: true }],
-      };
+      state.sortByName = null;
+      state.sortByRating = action.payload;
+      state.page = 0;
+      state.display = [{ toBeFilled: FROM_FILTER_OR_SORT }];
     },
     display: (state) => {
       let toDisplay = JSON.parse(JSON.stringify(state.games));
@@ -119,43 +125,57 @@ export const apiSlice = createSlice({
             (g1, g2) => (g1.rating - g2.rating) * state.sortByRating
           ));
       }
-      state = { ...state, display: toDisplay };
+      state.display = toDisplay;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getGames.pending, (state) => {
-        state.games = [{ loading: true }];
+        state.games = [{ loading: FROM_GET_GAMES }];
         state.filterByGenre = 0;
         state.filterBySource = null;
         state.sortByName = null;
         state.sortByRating = null;
         state.page = 0;
-        state.display = [{ loading: true }];
+        state.display = [{ idle: FROM_GET_GAMES }];
+      })
+      .addCase(getGames.rejected, (state) => {
+        state.games = [{ rejected: FROM_GET_GAMES }];
       })
       .addCase(getGames.fulfilled, (state, action) => {
         state.games = action.payload;
+        state.display = [{ toBeFilled: FROM_GET_GAMES }];
       })
       .addCase(getGamesByName.pending, (state) => {
-        state.games = [{ loading: true }];
+        state.games = [{ loading: FROM_SEARCH_GAMES }];
         state.filterByGenre = 0;
         state.filterBySource = null;
         state.sortByName = null;
         state.sortByRating = null;
         state.page = 0;
-        state.display = [{ loading: true }];
+        state.display = [{ idle: FROM_SEARCH_GAMES }];
+      })
+      .addCase(getGamesByName.rejected, (state) => {
+        state.games = [{ rejected: FROM_SEARCH_GAMES }];
       })
       .addCase(getGamesByName.fulfilled, (state, action) => {
         state.games = action.payload;
+        state.display = [{ toBeFilled: FROM_SEARCH_GAMES }];
       })
       .addCase(getGameById.pending, (state) => {
-        state.game = [{ loading: true }];
+        state.game = { loading: FROM_SEARCH_GAME };
+      })
+      .addCase(getGameById.rejected, (state) => {
+        state.game = { rejected: FROM_SEARCH_GAME };
       })
       .addCase(getGameById.fulfilled, (state, action) => {
         state.game = action.payload;
       })
       .addCase(getGenres.pending, (state) => {
-        state.genres = [{ loading: true }];
+        state.genres = [{ loading: FROM_GET_GENRES }];
+      })
+      .addCase(getGenres.rejected, (state) => {
+        state.genres = [{ rejected: FROM_GET_GENRES }];
       })
       .addCase(getGenres.fulfilled, (state, action) => {
         state.genres = action.payload;
@@ -174,6 +194,7 @@ export const selectPage = (state) => state.page;
 export const selectDisplay = (state) => state.display;
 
 export const {
+  start,
   filterByGenre,
   filterBySource,
   sortByName,
