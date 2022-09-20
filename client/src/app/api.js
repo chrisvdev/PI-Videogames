@@ -97,9 +97,7 @@ export const apiSlice = createSlice({
       };
     },
     display: (state) => {
-      console.log(state);
       let toDisplay = JSON.parse(JSON.stringify(state.games));
-      console.log(toDisplay);
       if (!toDisplay[0].loading) {
         state.filterByGenre &&
           (toDisplay = toDisplay.filter((game) =>
@@ -127,7 +125,6 @@ export const apiSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getGames.pending, (state) => {
-        console.log(1);
         state.games = [{ loading: true }];
         state.filterByGenre = 0;
         state.filterBySource = null;
@@ -138,7 +135,6 @@ export const apiSlice = createSlice({
       })
       .addCase(getGames.fulfilled, (state, action) => {
         state.games = action.payload;
-        console.log(state);
       })
       .addCase(getGamesByName.pending, (state) => {
         state.games = [{ loading: true }];
