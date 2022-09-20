@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const initialState = {
+let initialState = {
   games: [{ loading: true }],
   game: { noGame: true },
   genres: [{ loading: true }],
@@ -13,29 +13,49 @@ const initialState = {
   display: [{ loading: true }],
 };
 
-export const getGames = createAsyncThunk("getGames", async () => {
-  const response = await axios.get(`${document.domain}:3001/videogames`);
-  return response.data;
+export const getGames = createAsyncThunk("api/getGames", async () => {
+  try {
+    const response = await axios.get(
+      `http://${document.domain}:3001/videogames`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 export const getGamesByName = createAsyncThunk(
-  "getGamesByName",
+  "api/getGamesByName",
   async (name) => {
-    const response = await axios.get(
-      `${document.domain}:3001/videogames?name=${name}`
-    );
-    return response.data;
+    try {
+      const response = await axios.get(
+        `http://${document.domain}:3001/videogames?name=${name}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
   }
 );
 
-export const getGameById = createAsyncThunk("getGameById", async (id) => {
-  const response = await axios.get(`${document.domain}:3001/videogame/${id}`);
-  return response.data;
+export const getGameById = createAsyncThunk("api/getGameById", async (id) => {
+  try {
+    const response = await axios.get(
+      `http://${document.domain}:3001/videogame/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 });
 
-export const getGenres = createAsyncThunk("getGenres", async () => {
-  const response = await axios.get(`${document.domain}:3001/genres`);
-  return response.data;
+export const getGenres = createAsyncThunk("api/getGenres", async () => {
+  try {
+    const response = await axios.get(`http://${document.domain}:3001/genres`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 export const apiSlice = createSlice({
@@ -77,7 +97,9 @@ export const apiSlice = createSlice({
       };
     },
     display: (state) => {
+      console.log(state);
       let toDisplay = JSON.parse(JSON.stringify(state.games));
+      console.log(toDisplay);
       if (!toDisplay[0].loading) {
         state.filterByGenre &&
           (toDisplay = toDisplay.filter((game) =>
@@ -105,50 +127,47 @@ export const apiSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getGames.pending, (state) => {
-        state = {
-          ...state,
-          games: [{ loading: true }],
-          filterByGenre: 0,
-          filterBySource: null,
-          sortByName: null,
-          sortByRating: null,
-          page: 0,
-          display: [{ loading: true }],
-        };
+        console.log(1);
+        state.games = [{ loading: true }];
+        state.filterByGenre = 0;
+        state.filterBySource = null;
+        state.sortByName = null;
+        state.sortByRating = null;
+        state.page = 0;
+        state.display = [{ loading: true }];
       })
       .addCase(getGames.fulfilled, (state, action) => {
-        state = { ...state, games: action.payload };
+        state.games = action.payload;
+        console.log(state);
       })
       .addCase(getGamesByName.pending, (state) => {
-        state = {
-          ...state,
-          games: [{ loading: true }],
-          filterByGenre: 0,
-          filterBySource: null,
-          sortByName: null,
-          sortByRating: null,
-          page: 0,
-          display: [{ loading: true }],
-        };
+        state.games = [{ loading: true }];
+        state.filterByGenre = 0;
+        state.filterBySource = null;
+        state.sortByName = null;
+        state.sortByRating = null;
+        state.page = 0;
+        state.display = [{ loading: true }];
       })
       .addCase(getGamesByName.fulfilled, (state, action) => {
-        state = { ...state, games: action.payload };
+        state.games = action.payload;
       })
       .addCase(getGameById.pending, (state) => {
-        state = { ...state, game: [{ loading: true }] };
+        state.game = [{ loading: true }];
       })
       .addCase(getGameById.fulfilled, (state, action) => {
-        state = { ...state, game: action.payload };
+        state.game = action.payload;
       })
       .addCase(getGenres.pending, (state) => {
-        state = { ...state, genres: [{ loading: true }] };
+        state.genres = [{ loading: true }];
       })
       .addCase(getGenres.fulfilled, (state, action) => {
-        state = { ...state, genres: action.payload };
+        state.genres = action.payload;
       });
   },
 });
 
+export const selectGames = (state) => state.games;
 export const selectGame = (state) => state.game;
 export const selectGenres = (state) => state.genres;
 export const selectGenreFilter = (state) => state.filterByGenre;

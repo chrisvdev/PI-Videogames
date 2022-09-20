@@ -12,7 +12,6 @@ class DataMerger {
   async getGames(p) {
     let internal = await this.internal.getGames();
     let external = await this.external.getGames(p ? p : 5);
-    console.log(internal);
     if (!Array.isArray(external)) return external;
     else
       external = external.map((game) => {
