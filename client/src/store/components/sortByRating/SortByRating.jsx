@@ -1,14 +1,14 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectRatingSort, sortByRating } from "../../api";
-import "sortByName.css";
+import "sortByRating.css";
 
-const SortByName = () => {
+const SortByRating = () => {
   const rating = useSelector(selectRatingSort);
   const dispatch = useDispatch();
   return (
     <button
-      className="btn btn--source"
+      className="btn btn--rating"
       onClick={() =>
         rating
           ? rating === -1
@@ -17,9 +17,10 @@ const SortByName = () => {
           : dispatch(sortByRating(-1))
       }
     >
-      {rating ? (rating === -1 ? "Ascendent" : "Descendent") : "All"}
+      {rating ? (rating === -1 ? "Ascendent " : "Descendent ") : ""}
+      Ratings
     </button>
   );
 };
 
-export default SortByName;
+export default SortByRating;

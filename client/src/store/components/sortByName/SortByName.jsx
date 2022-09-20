@@ -1,23 +1,24 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { filterBySource, selectSourceFilter } from "../../api";
-import "./sortByName.css";
+import { selectNameSort, sortByName } from "../../api";
+import "sortByName.css";
 
 const SortByName = () => {
-  const source = useSelector(selectSourceFilter);
+  const nameSort = useSelector(selectNameSort);
   const dispatch = useDispatch();
   return (
     <button
-      className="btn btn--source"
+      className="btn btn--name"
       onClick={() =>
-        source
-          ? source === "E"
-            ? dispatch(filterBySource("I"))
-            : dispatch(filterBySource(null))
-          : dispatch(filterBySource("E"))
+        nameSort
+          ? nameSort === -1
+            ? dispatch(sortByName(1))
+            : dispatch(sortByName(null))
+          : dispatch(sortByName(-1))
       }
     >
-      {source ? (source === "E" ? "External" : "Internal") : "All"}
+      {nameSort ? (nameSort === -1 ? "Ascendent " : "Descendent ") : ""}
+      Names
     </button>
   );
 };
