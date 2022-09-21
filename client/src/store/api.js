@@ -119,7 +119,8 @@ export const apiSlice = createSlice({
             (g1, g2) => (g1.rating - g2.rating) * state.sortByRating
           ));
       }
-      state.display = toDisplay;
+      state.display =
+        toDisplay.length > 0 ? toDisplay : [{ toBeFilled: false }];
     },
   },
   extraReducers: (builder) => {
@@ -175,14 +176,14 @@ export const apiSlice = createSlice({
   },
 });
 
-export const selectGames = (state) => state.games;
-export const selectGame = (state) => state.game;
-export const selectGenres = (state) => state.genres;
-export const selectGenreFilter = (state) => state.filterByGenre;
-export const selectSourceFilter = (state) => state.filterBySource;
-export const selectNameSort = (state) => state.sortByName;
-export const selectRatingSort = (state) => state.sortByRating;
-export const selectDisplay = (state) => state.display;
+export const selectGames = (state) => state.api.games;
+export const selectGame = (state) => state.api.game;
+export const selectGenres = (state) => state.api.genres;
+export const selectGenreFilter = (state) => state.api.filterByGenre;
+export const selectSourceFilter = (state) => state.api.filterBySource;
+export const selectNameSort = (state) => state.api.sortByName;
+export const selectRatingSort = (state) => state.api.sortByRating;
+export const selectDisplay = (state) => state.api.display;
 
 export const {
   start,

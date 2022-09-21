@@ -1,33 +1,20 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { display, getGames, selectDisplay, selectGame } from "./store/api";
+import SortByRating from "./store/components/sortByRating/SortByRating";
+import SortByName from "./store/components/sortByName/SortByName";
+import SelectSource from "./store/components/selectSource/SelectSource";
+import SelectGenre from "./store/components/selectGenre/SelectGenre";
+import Display from "./store/components/display/Display";
 import "./App.css";
 
 function App() {
-  const dispatch = useDispatch();
-  const toDisplay = useSelector(selectDisplay);
-  const games = useSelector(selectGame);
-  useEffect(() => {
-    dispatch(getGames());
-  }, []);
-  useEffect(() => {
-    games && !games[0].loading && dispatch(display());
-  }, [games]);
-  useEffect(() => {
-    console.log(toDisplay);
-  }, [toDisplay]);
   return (
     <>
-      <h1>Hola mundo!</h1>
-      <button
-        onClick={() => {
-          dispatch(display());
-          console.log(toDisplay);
-        }}
-      >
-        Click
-      </button>
+      <SortByRating />
+      <SortByName/>
+      <SelectSource/>
+      <SelectGenre/>
+      <Display/>
       <Routes>
         <Route path="/" element={<div>Raíz</div>} />
         <Route path="/noroot" element={<div>no Raíz</div>} />

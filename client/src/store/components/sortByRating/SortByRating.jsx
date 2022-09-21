@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectRatingSort, sortByRating } from "../../api";
-import "sortByRating.css";
+import "./sortByRating.css";
 
 const SortByRating = () => {
   const rating = useSelector(selectRatingSort);
@@ -17,7 +17,7 @@ const SortByRating = () => {
           : dispatch(sortByRating(-1))
       }
     >
-      {rating ? (rating === -1 ? "Ascendent " : "Descendent ") : ""}
+      {rating ? (rating === 1 ? "1 to 5 " : "5 to 1 ") : ""}
       Ratings
     </button>
   );

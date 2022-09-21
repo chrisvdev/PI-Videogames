@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectNameSort, sortByName } from "../../api";
-import "sortByName.css";
+import "./sortByName.css";
 
 const SortByName = () => {
   const nameSort = useSelector(selectNameSort);
@@ -11,13 +11,13 @@ const SortByName = () => {
       className="btn btn--name"
       onClick={() =>
         nameSort
-          ? nameSort === -1
-            ? dispatch(sortByName(1))
+          ? nameSort === 1
+            ? dispatch(sortByName(-1))
             : dispatch(sortByName(null))
-          : dispatch(sortByName(-1))
+          : dispatch(sortByName(1))
       }
     >
-      {nameSort ? (nameSort === -1 ? "Ascendent " : "Descendent ") : ""}
+      {nameSort ? (nameSort === -1 ? "Z to A " : "A to Z ") : ""}
       Names
     </button>
   );

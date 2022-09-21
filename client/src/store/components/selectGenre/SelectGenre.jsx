@@ -8,19 +8,26 @@ import {
 } from "../../api";
 import "./selectGenre.css";
 
-const eventHandler = (e) => {
-  dispatch(filterByGenre(e.target.value === 0 ? null : e.target.value));
-};
-
 const SelectGenre = ({ onSelect }) => {
   const dispatch = useDispatch();
+  const eventHandler = (e) => {
+    dispatch(
+      filterByGenre(
+        parseInt(e.target.value) === 0 ? null : parseInt(e.target.value)
+      )
+    );
+  };
   const genreFilter = useSelector(selectGenreFilter);
   const genres = useSelector(selectGenres);
   useEffect(() => {
     genres[0].start && dispatch(getGenres());
   }, [genres]);
   return (
-    <select className="select select--genre" value={genreFilter} onChange={onSelect ? onSelect : eventHandler}>
+    <select
+      className="select select--genre"
+      value={genreFilter}
+      onChange={onSelect ? onSelect : eventHandler}
+    >
       <option key="option-default" value={0}>
         All Genres
       </option>
