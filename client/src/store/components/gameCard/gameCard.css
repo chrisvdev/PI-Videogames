@@ -1,0 +1,13 @@
+.gameCard__imgContainer {
+    height: 15rem;
+    width: 15rem;
+    overflow: hidden;
+    display: flex;
+    position: relative;
+}
+
+.gameCard__imgContainer img {
+    height: 100%;
+    object-fit: scale-down;
+    object-position:center;
+}
