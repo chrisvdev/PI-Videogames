@@ -1,18 +1,25 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Welcome from "./containers/Welcome";
-import Display from "./store/containers/display/Display"
+import Main from "./containers/main/Main";
+import Display from "./store/containers/display/Display";
 import Game from "./store/containers/game/Game";
+import About from "./containers/about/About";
+import NotFound from "./containers/notFound/NotFound";
 import "./App.css";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Welcome/>}/>
-        <Route path="/games" element={<Display/>} />
-        <Route path="/games/:toSearch" element={<Display/>} />
-        <Route path="/game/:id" element={<Game/>} />
+        <Route path="/" element={<Welcome />} />
+        <Route path="/games" element={<Main />}>
+          <Route index element={<Display />} />
+          <Route path=":toSearch" element={<Display />} />
+          <Route path="game/:id" element={<Game />} />
+        </Route>
+        <Route path="/about" element={<About />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );
