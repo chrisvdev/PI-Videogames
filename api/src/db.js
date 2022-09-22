@@ -38,17 +38,45 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Videogame, Genre } = sequelize.models;
+const { Videogame, Genre, Platform } = sequelize.models;
 
 // Aca vendrían las relaciones
 // Product.hasMany(Reviews);
 
 Videogame.belongsToMany(Genre, { through: "genresPerGame" });
 Genre.belongsToMany(Videogame, { through: "genresPerGame" });
+Videogame.belongsToMany(Platform, { through: "platformPerGame" });
+Platform.belongsToMany(Videogame, { through: "platformPerGame" });
 
 class DataBase {
   constructor(rawg) {
     this.rawg = rawg;
+  }
+  async writePlatform({ id, name }, modifier) {
+    try {
+      const platform = await Platform.findOne({ where: { id: id } });
+      if (platform) {
+        if (modifier) {
+          platform.name = name;
+          await platform.save();
+        }
+      } else await Platform.create({ id: id, name: name });
+      return { success: true };
+    } catch (error) {
+      //console.log(error);
+    }
+  }
+  async getPlatforms() {
+    try {
+      const result = await Platform.findAll();
+      return result
+        ? result.map(({ dataValues }) => {
+            return dataValues;
+          })
+        : [];
+    } catch (error) {
+      //console.log(error);
+    }
   }
   async writeGenre({ id, name }, modifier) {
     try {
@@ -61,14 +89,8 @@ class DataBase {
       } else await Genre.create({ id: id, name: name });
       return { success: true };
     } catch (error) {
-      return error;
+      //console.log(error);
     }
-  }
-  async createGenres() {
-    const rawgGenres = await this.rawg.getGenres();
-    const proms = rawgGenres.map(async ({ id, name }) => {
-      return await this.writeGenre({ id: id, name: name }, true);
-    });
   }
   async getGenres() {
     try {
@@ -79,23 +101,33 @@ class DataBase {
           })
         : [];
     } catch (error) {
-      return error;
+      //console.log(error);
     }
+  }
+  async createGenres() {
+    const rawgGenres = await this.rawg.getGenres();
+    rawgGenres.map(async ({ id, name }) => {
+      return await this.writeGenre({ id: id, name: name }, true);
+    });
   }
   async getGameByID(id) {
     try {
       const game = await Videogame.findOne({ where: { id: id } });
       if (game) {
         let genres = await game.getGenres();
+        let parent_platforms = await game.getPlatforms();
         return {
           ...game.dataValues,
           genres: genres.map(({ id, name }) => {
             return { id: id, name: name };
           }),
+          parent_platforms: parent_platforms.map((platform) => {
+            return { platform: { id: platform.id, name: platform.name } };
+          }),
         };
       } else return { error: "Bad ID" };
     } catch (error) {
-      return error;
+      //console.log(error);
     }
   }
   async getGames() {
@@ -113,7 +145,7 @@ class DataBase {
           )
         : [];
     } catch (error) {
-      return error;
+      //console.log(error);
     }
   }
   async getGamesByName(name) {
@@ -127,7 +159,7 @@ class DataBase {
           })
         : [];
     } catch (error) {
-      return error;
+      //console.log(error);
     }
   }
   async postGame({
@@ -144,7 +176,6 @@ class DataBase {
         description: description,
         released: released,
         rating: rating,
-        parent_platforms: parent_platforms,
       });
       genres.forEach(async ({ id, name }) => {
         const genre = await Genre.findOne({ where: { id: id } });
@@ -152,8 +183,14 @@ class DataBase {
           ? await videogame.addGenre(genre)
           : await videogame.createGenre({ id: id, name: name });
       });
+      parent_platforms.forEach(async ({ id, name }) => {
+        const platform = await Platform.findOne({ where: { id: id } });
+        platform
+          ? await videogame.addPlatform(platform)
+          : await videogame.createPlatform({ id: id, name: name });
+      });
     } catch (error) {
-      return error;
+      //console.log(error);
     }
     return { success: true };
   }

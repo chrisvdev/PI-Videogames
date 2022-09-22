@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Welcome from "./containers/Welcome";
+import Welcome from "./containers/welcome/Welcome";
 import Main from "./containers/main/Main";
 import Display from "./store/containers/display/Display";
 import Game from "./store/containers/game/Game";

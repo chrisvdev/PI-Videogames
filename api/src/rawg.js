@@ -14,7 +14,7 @@ class Rawg {
       );
       return response.data.results;
     } catch (e) {
-      return e;
+      console.log(e);
     }
   }
   async getGames(p) {
@@ -32,7 +32,7 @@ class Rawg {
       }
       return this.games;
     } catch (e) {
-      return e;
+      console.log(e);
     }
   }
 
@@ -43,7 +43,7 @@ class Rawg {
       );
       return response.data;
     } catch (e) {
-      return e;
+      console.log(e);
     }
   }
   async getGamesByName(name) {
@@ -53,7 +53,7 @@ class Rawg {
       );
       return response.data.results;
     } catch (e) {
-      return e;
+      console.log(e);
     }
   }
 }

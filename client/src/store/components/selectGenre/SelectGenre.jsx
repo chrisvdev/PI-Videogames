@@ -8,7 +8,7 @@ import {
 } from "../../api";
 import "./selectGenre.css";
 
-const SelectGenre = ({ onSelect }) => {
+const SelectGenre = ({ value, name, onSelect }) => {
   const dispatch = useDispatch();
   const eventHandler = (e) => {
     dispatch(
@@ -25,11 +25,12 @@ const SelectGenre = ({ onSelect }) => {
   return (
     <select
       className="select select--genre"
-      value={genreFilter}
+      name={name ? name : ""}
+      value={value ? value : genreFilter}
       onChange={onSelect ? onSelect : eventHandler}
     >
       <option key="option-default" value={0}>
-        All Genres
+        {onSelect ? "Genres" : "All Genres"}
       </option>
       {genres[0].id &&
         genres.map(({ id, name }) => (

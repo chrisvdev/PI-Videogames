@@ -5,6 +5,7 @@ export const FROM_GET_GAMES = "GET_GAMES";
 export const FROM_SEARCH_GAMES = "SEARCH_GAMES";
 export const FROM_SEARCH_GAME = "SEARCH_GAME";
 export const FROM_GET_GENRES = "GET_GENRES";
+export const FROM_GET_PLATFORMS = "GET_PLATFORMS";
 export const FROM_FILTER_OR_SORT = "FILTER_OR_SORT";
 export const FROM_START = "START";
 
@@ -12,6 +13,7 @@ let initialState = {
   games: [{ start: true }],
   game: { noGame: true },
   genres: [{ start: true }],
+  parent_platforms: [{ start: true }],
   filterByGenre: 0,
   filterBySource: null,
   sortByName: null,
@@ -56,8 +58,17 @@ export const getGameById = createAsyncThunk("api/getGameById", async (id) => {
 });
 
 export const getGenres = createAsyncThunk("api/getGenres", async () => {
-  try {
+try {
     const response = await axios.get(`http://${document.domain}:3001/genres`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+export const getPlatforms = createAsyncThunk("api/getPlatforms", async () => {
+try {
+    const response = await axios.get(`http://${document.domain}:3001/platforms`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -72,6 +83,7 @@ export const apiSlice = createSlice({
       state.games = [{ start: true }];
       state.game = { noGame: true };
       state.genres = [{ start: true }];
+      state.parent_platforms = [{ start: true }];
       state.filterByGenre = 0;
       state.filterBySource = null;
       state.sortByName = null;
@@ -172,6 +184,15 @@ export const apiSlice = createSlice({
       })
       .addCase(getGenres.fulfilled, (state, action) => {
         state.genres = action.payload;
+      })
+      .addCase(getPlatforms.pending, (state) => {
+        state.parent_platforms = [{ loading: FROM_GET_PLATFORMS }];
+      })
+      .addCase(getPlatforms.rejected, (state) => {
+        state.parent_platforms = [{ rejected: FROM_GET_PLATFORMS }];
+      })
+      .addCase(getPlatforms.fulfilled, (state, action) => {
+        state.parent_platforms = action.payload;
       });
   },
 });
@@ -184,6 +205,7 @@ export const selectSourceFilter = (state) => state.api.filterBySource;
 export const selectNameSort = (state) => state.api.sortByName;
 export const selectRatingSort = (state) => state.api.sortByRating;
 export const selectDisplay = (state) => state.api.display;
+export const selectPlatforms = (state) => state.api.parent_platforms;
 
 export const {
   start,

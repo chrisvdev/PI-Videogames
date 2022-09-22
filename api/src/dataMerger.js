@@ -5,13 +5,31 @@ class DataMerger {
   constructor(internal, external) {
     this.external = external;
     this.internal = internal;
+    this.platformsCaught = false;
   }
   async getGenres() {
     return await this.internal.getGenres();
   }
+  async getPlatforms() {
+    return await this.internal.getPlatforms();
+  }
   async getGames(p) {
     let internal = await this.internal.getGames();
     let external = await this.external.getGames(p ? p : 5);
+    if (!this.platformsCaught && external.length > 0) {
+      const platforms = [];
+      external.forEach(({ parent_platforms }) => {
+        parent_platforms.forEach(({ platform }) => {
+          platforms.push({ id: platform.id, name: platform.name });
+        });
+      });
+      await Promise.all(
+        platforms.map(
+          async (platform) => await this.internal.writePlatform(platform)
+        )
+      );
+      this.platformsCaught = true;
+    }
     if (!Array.isArray(external)) return external;
     else
       external = external.map((game) => {

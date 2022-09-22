@@ -16,7 +16,7 @@ const GameCard = ({ game }) => {
         </div>
       )}
       <div className="gameCard__title">
-        <Link to={`/game/${id}`} className="gameCard__title-text">
+        <Link to={`/games/game/${id}`} className="gameCard__title-text">
           {name}
         </Link>
       </div>

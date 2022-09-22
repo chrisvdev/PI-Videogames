@@ -32,6 +32,12 @@ router.get("/genres", async (req, res) => {
     ? res.status(200).send(genres)
     : res.status(500).send(genres);
 });
+router.get("/platforms", async (req, res) => {
+  const platform = await dataMerger.getPlatforms();
+  Array.isArray(platform)
+    ? res.status(200).send(platform)
+    : res.status(500).send(platform);
+});
 
 router;
 
