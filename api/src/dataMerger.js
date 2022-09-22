@@ -20,7 +20,12 @@ class DataMerger {
       const platforms = [];
       external.forEach(({ parent_platforms }) => {
         parent_platforms.forEach(({ platform }) => {
-          platforms.push({ id: platform.id, name: platform.name });
+          if (
+            platforms.length === 0 ||
+            !platforms.find(({ id }) => id === platform.id)
+          ) {
+            platforms.push({ id: platform.id, name: platform.name });
+          }
         });
       });
       await Promise.all(
