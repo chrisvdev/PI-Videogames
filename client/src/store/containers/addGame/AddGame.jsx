@@ -6,13 +6,14 @@ import {
   selectPlatforms,
   getGenres,
   getPlatforms,
-} from "../../store/api";
+} from "../../api";
 import isFloat from "validator/es/lib/isFloat";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const AddGame = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const genres = useSelector(selectGenres);
   const parent_platforms = useSelector(selectPlatforms);
   const [game, setGame] = useState({ genres: [], parent_platforms: [] });
@@ -39,6 +40,9 @@ const AddGame = () => {
           .post(`http://${document.domain}:3001/videogames`, game)
           .then(() => {
             setError("Game sended! redirecting to games list");
+            setTimeout(() => {
+              navigate("/games");
+            }, 3000);
           })
           .catch((reason) => {
             setError("something went wrong, see the console for more info...");
@@ -140,7 +144,6 @@ const AddGame = () => {
         <input type="submit" />
       </form>
       {error.length !== 0 && <h3 className="addGame__error">{error}</h3>}
-      {error[0] === "G" && <Navigate to={"/games"} />}
     </section>
   );
 };

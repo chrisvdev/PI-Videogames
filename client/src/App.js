@@ -4,7 +4,7 @@ import Welcome from "./containers/welcome/Welcome";
 import Main from "./containers/main/Main";
 import Display from "./store/containers/display/Display";
 import Game from "./store/containers/game/Game";
-import AddGame from "./containers/addGame/AddGame";
+import AddGame from "./store/containers/addGame/AddGame";
 import About from "./containers/about/About";
 import NotFound from "./containers/notFound/NotFound";
 import "./App.css";
