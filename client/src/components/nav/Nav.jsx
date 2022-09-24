@@ -28,7 +28,7 @@ const Nav = () => {
           isActive ? "btn nav__btn nav__btn-active" : "btn nav__btn"
         }
       >
-        Create Game
+        About
       </NavLink>
       <form
         className="nav__search"
@@ -42,7 +42,7 @@ const Nav = () => {
           value={search}
           placeholder="Type a game..."
           onChange={({ target }) => {
-            target.value === ""
+            return target.value === ""
               ? setSearch("")
               : target.value[target.value.length - 1] !== "." &&
                 target.value[target.value.length - 1] !== "?"
