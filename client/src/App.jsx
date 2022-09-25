@@ -8,10 +8,20 @@ import AddGame from "./store/containers/addGame/AddGame";
 import About from "./containers/about/About";
 import NotFound from "./containers/notFound/NotFound";
 import "./App.css";
+import BACKGROUND from "./assets/background.jpg"
 
 function App() {
   return (
     <>
+      <div className="background">
+        <img
+          src={BACKGROUND}
+          alt="background"
+          className="background background__image"
+        />
+        <div className="background background__filter1" />
+        <div className="background background__filter2" />
+      </div>
       <Routes>
         <Route path="/" element={<Welcome />} />
         <Route path="/games" element={<Main />}>

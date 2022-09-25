@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import "./nav.css"
 
 const Nav = () => {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   return (
-    <nav className="container nav__container">
+    <nav className="nav__container">
       <NavLink
         to={"/games"}
         className={(isActive) =>
-          isActive ? "btn nav__btn nav__btn-active" : "btn nav__btn"
+          !isActive ? "btn nav__btn nav__btn-active" : "btn nav__btn"
         }
       >
         Games
@@ -17,7 +18,7 @@ const Nav = () => {
       <NavLink
         to={"/games/game"}
         className={(isActive) =>
-          isActive ? "btn nav__btn nav__btn-active" : "btn nav__btn"
+          !isActive ? "btn nav__btn nav__btn-active" : "btn nav__btn"
         }
       >
         Create Game
@@ -25,7 +26,7 @@ const Nav = () => {
       <NavLink
         to={"/about"}
         className={(isActive) =>
-          isActive ? "btn nav__btn nav__btn-active" : "btn nav__btn"
+          !isActive ? "btn nav__btn nav__btn-active" : "btn nav__btn"
         }
       >
         About
@@ -35,6 +36,7 @@ const Nav = () => {
         onSubmit={(e) => {
           e.preventDefault();
           search.length > 0 && navigate(`/games/${search}`);
+          setSearch("");
         }}
       >
         <input

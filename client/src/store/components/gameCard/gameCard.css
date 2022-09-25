@@ -1,13 +1,15 @@
-.gameCard__imgContainer {
-    height: 15rem;
-    width: 15rem;
-    overflow: hidden;
-    display: flex;
-    position: relative;
+.gameCard {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  width: 15rem;
+  margin: 1rem;
+  padding: 1rem;
+  background: rgba(var(--color-bg-rgb), 0.2);
+  backdrop-filter: blur(10px);
+  transition: var(--transition);
 }
 
-.gameCard__imgContainer img {
-    height: 100%;
-    object-fit: scale-down;
-    object-position:center;
+.gameCard:hover{
+  box-shadow: 0 0 .25rem var(--color-primary);
 }

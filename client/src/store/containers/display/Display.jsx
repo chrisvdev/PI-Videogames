@@ -17,12 +17,15 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import "./display.css";
 import { useParams } from "react-router-dom";
 
-const Display = ({  gamesToDisplay = 15 }) => {
-  const {toSearch} = useParams();
+const Display = ({ gamesToDisplay = 15 }) => {
+  const { toSearch } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(start());
   }, []);
+  useEffect(() => {
+    dispatch(start());
+  }, [toSearch]);
   const games = useSelector(selectGames);
   useEffect(() => {
     (games[0].start || games[0].rejected) &&
@@ -38,20 +41,18 @@ const Display = ({  gamesToDisplay = 15 }) => {
       })();
   }, [displayToShow]);
   return (
-    <section className="container container__display">
+    <section className="container display__container">
       <div
-        className="container__display-controller"
+        className="display__controller"
         style={toSearch ? { display: "none" } : {}}
       >
-        <div className="display-controller__controls">
-          <SortByRating />
-          <SortByName />
-          <SelectSource />
-          <SelectGenre />
-        </div>
-        <div className="display-controller__pager">
+        <SortByRating />
+        <SortByName />
+        <SelectSource />
+        <SelectGenre />
+        <div className="display__controller-pager">
           <button
-            className="btn display-controller-btn"
+            className="btn display__controller-btn"
             style={page - 1 === 0 ? { display: "none" } : {}}
             onClick={() => {
               setPage(page - 1);
@@ -60,7 +61,7 @@ const Display = ({  gamesToDisplay = 15 }) => {
             <IoIosArrowBack />
           </button>
           <small
-            className="display-controller-page"
+            className="display__controller-page"
             style={
               displayToShow.length <= gamesToDisplay ? { display: "none" } : {}
             }
@@ -68,7 +69,7 @@ const Display = ({  gamesToDisplay = 15 }) => {
             {page}
           </small>
           <button
-            className="btn display-controller-btn"
+            className="btn display__controller-btn"
             style={
               page < Math.ceil(displayToShow.length / gamesToDisplay)
                 ? {}
@@ -82,7 +83,7 @@ const Display = ({  gamesToDisplay = 15 }) => {
           </button>
         </div>
       </div>
-      <section className="container__display-gamesList">
+      <section className="display__gamesList">
         {displayToShow[0].id &&
           displayToShow
             .slice(gamesToDisplay * (page - 1), gamesToDisplay * page)

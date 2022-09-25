@@ -1,0 +1,17 @@
+.nav__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  background: rgba(var(--color-bg-rgb), 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.nav__search {
+  display: inline-block;
+  margin-left: auto;
+}
+
+.nav__search > input {
+  background: transparent;
+  color: var(--color-white);
+}
