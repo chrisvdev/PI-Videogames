@@ -14,26 +14,34 @@ const Game = () => {
   }, [game]);
 
   return !(game.noGame || game.loading) ? (
-    <section className="container game__container">
-      <div className="game__image-background">
+    <section className="game__container">
+      <div className="game__background">
         <img
           src={game.background_image ? game.background_image : DEFAULT_IMG}
           alt={`${game.name} game image`}
+          className="game__background"
         />
+        <div className="game__background game__background-filter1" />
+        <div className="game__background game__background-filter2" />
       </div>
-      <div className="game__info">
-        <h1 className="game__title">{game.name}</h1>
-        <small className="game__released">{game.released}</small>
-        <small className="game__rating">{`${game.rating} points of Rating`}</small>
-        <div className="game__genres">
-          {game.genres.map(({ id, name }) => (
-            <small key={`game_genre-${id}`}>{name}</small>
-          ))}
+      <div className="game__bottom">
+        <div className="container game__info">
+          <div className="game__info-space" />
+          <h1 className="game__title">{game.name}</h1>
+          <div className="game__genres">
+            {game.genres.map(({ id, name }) => (
+              <small key={`game_genre-${id}`}>{name}</small>
+            ))}
+          </div>
+          <small className="released">{game.released}</small>
+          <small className="rating">{`Rating: ${game.rating}`}</small>
+          <div className="game__info-spacer" />
+          <div
+            className="game__description"
+            dangerouslySetInnerHTML={{ __html: game.description }}
+          />
+          <div className="game__info-space" />
         </div>
-        <div
-          className="game__description"
-          dangerouslySetInnerHTML={{ __html: game.description }}
-        />
       </div>
     </section>
   ) : (

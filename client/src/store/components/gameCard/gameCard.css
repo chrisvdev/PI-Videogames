@@ -1,7 +1,9 @@
 .gameCard {
   display: flex;
   flex-direction: column;
-  height: fit-content;
+  justify-content: space-between;
+  align-items: center;
+  height: 20rem;
   width: 15rem;
   margin: 1rem;
   padding: 1rem;
@@ -13,3 +15,20 @@
 .gameCard:hover{
   box-shadow: 0 0 .25rem var(--color-primary);
 }
+
+.gameCard__imgContainer > img{
+  height: 8rem;
+  width: 15rem;
+}
+
+.gameCard__title-text{
+  text-align: center;
+}
+
+.gameCard__attributes{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  text-align: center;
+}
+

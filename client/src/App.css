@@ -12,11 +12,11 @@ object-fit: cover;
 }
 
 .background__filter1{
-  z-index: -99;
-  background-color: #000000C0;
+  z-index: -90;
+  background-color: #0006;
 }
 
-.background__filter1{
-  z-index: -99;
-  background: radial-gradient(#0006,#000f);
+.background__filter2{
+  z-index: -80;
+  background: radial-gradient(#0000,#000e);
 }

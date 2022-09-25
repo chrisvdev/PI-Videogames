@@ -60,14 +60,14 @@ const Display = ({ gamesToDisplay = 15 }) => {
           >
             <IoIosArrowBack />
           </button>
-          <small
+          <p
             className="display__controller-page"
             style={
               displayToShow.length <= gamesToDisplay ? { display: "none" } : {}
             }
           >
             {page}
-          </small>
+          </p>
           <button
             className="btn display__controller-btn"
             style={
