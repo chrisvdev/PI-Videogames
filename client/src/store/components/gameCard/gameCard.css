@@ -8,6 +8,7 @@
   margin: 1rem;
   padding: 1rem;
   background: rgba(var(--color-bg-rgb), 0.2);
+  box-shadow: 0 0 .25rem var(--color-bg);
   backdrop-filter: blur(10px);
   transition: var(--transition);
 }

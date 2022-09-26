@@ -13,7 +13,7 @@ const SelectGenre = ({ value, name, onSelect }) => {
   const eventHandler = (e) => {
     dispatch(
       filterByGenre(
-        parseInt(e.target.value) === 0 ? null : parseInt(e.target.value)
+        parseInt(e.target.value) === 0 ? undefined : parseInt(e.target.value)
       )
     );
   };

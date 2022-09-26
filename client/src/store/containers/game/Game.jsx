@@ -18,7 +18,7 @@ const Game = () => {
       <div className="game__background">
         <img
           src={game.background_image ? game.background_image : DEFAULT_IMG}
-          alt={`${game.name} game image`}
+          alt={`${game.name}`}
           className="game__background"
         />
         <div className="game__background game__background-filter1" />
@@ -31,6 +31,13 @@ const Game = () => {
           <div className="game__genres">
             {game.genres.map(({ id, name }) => (
               <small key={`game_genre-${id}`}>{name}</small>
+            ))}
+          </div>
+          <div className="game__platforms">
+            {game.parent_platforms.map(({ platform }) => (
+              <small key={`game_platform-${platform.id}`} className="platform">
+                {platform.name}
+              </small>
             ))}
           </div>
           <small className="released">{game.released}</small>

@@ -149,6 +149,12 @@ small {
   color: var(--color-primary);
 }
 
+.platform {
+  background-color: rgba(var(--color-bg-rgb), 0.5);
+  box-shadow: 0 0 0.25rem var(--color-primary);
+  color: var(--color-white);
+}
+
 .rating {
   background-color: rgba(var(--color-primary-variant-rgb), 0.5);
   box-shadow: 0 0 0.5rem var(--color-bg);

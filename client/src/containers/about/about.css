@@ -1,0 +1,110 @@
+.about__container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.about__title {
+  font-size: 3rem;
+  text-shadow: 0 0 1rem var(--color-primary);
+}
+
+.about__text {
+  font-size: 1.25rem;
+  text-shadow: 0 0 1rem #000;
+}
+
+.about__side {
+  margin: 1.5rem;
+}
+
+.about__technologies {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.about__side {
+  margin: 2rem;
+  background-color: rgba(var(--color-bg-variant-rgb), 0.2);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 0.25rem var(--color-bg);
+  transition: var(--transition);
+  padding-bottom: 1.5rem;
+}
+
+.about__side:hover {
+  box-shadow: 0 0 0.25rem var(--color-primary);
+}
+
+.about__technologies-title {
+  margin: 1.5rem 2rem;
+  text-shadow: 0 0 1rem #000;
+}
+
+.about__technologies-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: space-evenly;
+  align-content: space-evenly;
+  justify-items: center;
+  align-items: center;
+}
+
+.about__technologies-item {
+  display: flex;
+  padding: 0.5rem;
+  margin: 1rem;
+  flex-direction: column;
+  height: 12rem;
+  width: 10rem;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: rgba(var(--color-bg-variant-rgb), 0.1);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 0.25rem var(--color-bg);
+  transition: var(--transition);
+  text-shadow: 0 0 1rem #000;
+}
+
+.about__technologies-list :hover {
+  box-shadow: 0 0 0.25rem var(--color-primary);
+}
+
+.about__technologies-item :hover {
+  box-shadow: none;
+}
+
+.about__text2 {
+  font-size: 1.25rem;
+  text-shadow: 0 0 1rem #000;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 1720px) {
+    .about__technologies-list {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 1200px) {
+    .about__technologies{
+        grid-template-columns: 1fr;
+    }
+    .about__technologies-list {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media (max-width: 750px) {
+    .about__technologies-list {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 500px) {
+    .about__technologies-list {
+        grid-template-columns: 1fr;
+    }
+}

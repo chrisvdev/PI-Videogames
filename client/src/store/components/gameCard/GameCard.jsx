@@ -4,9 +4,10 @@ import "./gameCard.css";
 import DEFAULT_IMG from "../../../assets/game.jpg";
 
 const GameCard = ({ game }) => {
-  const { id, name, rating, genres, background_image } = game;
+  const { id, name, genres, background_image } = game;
   return (
     <article
+      key={`gameCard-${id}`}
       className="gameCard"
       style={genres ? {} : { height: "fit-content" }}
     >
@@ -14,7 +15,7 @@ const GameCard = ({ game }) => {
         <div className="gameCard__imgContainer">
           <img
             src={background_image ? background_image : DEFAULT_IMG}
-            alt={`${name} game image`}
+            alt={`${name}`}
           />
         </div>
       )}
@@ -22,11 +23,6 @@ const GameCard = ({ game }) => {
         <h2 className="gameCard__title-text">{name}</h2>
       </Link>
       <div className="gameCard__attributes">
-        {rating && (
-          <div className="gameCard__attribute">
-            <small className="rating">{`Rating: ${rating}`}</small>
-          </div>
-        )}
         {genres &&
           genres.map(({ id: genreId, name }) => (
             <div className="gameCard__attribute">
