@@ -1,0 +1,89 @@
+.addGame {
+  display: flex;
+  position: fixed;
+  flex-wrap: wrap;
+  background: transparent;
+  left: 0;
+  top: 0;
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: -10;
+}
+
+.addGame__title {
+  font-size: 3rem;
+  text-shadow: 0 0 1rem var(--color-primary);
+}
+
+.addGame__bottom {
+  background: linear-gradient(transparent, #000a);
+  margin-top: auto;
+  width: 100vw;
+}
+
+.addGame__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.addGame__selector-list > h2 {
+    margin: .5rem 1rem;
+    grid-column: 1 / 4;
+}
+
+.addGame__selector-list-option {
+  width: 100%;
+  display: inline-block;
+  color: var(--color-primary-variant);
+  transition: var(--transition);
+}
+
+.addGame__selector-list-option:hover {
+  background: linear-gradient(transparent, var(--color-primary));
+  color: var(--color-white);
+  border-color: transparent;
+}
+
+
+.addGame__form > textarea,
+.addGame__form > input,
+.addGame__form-sub > input,
+.addGame__selector-list-option > input {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 1rem;
+  background-color: rgba(var(--color-bg-rgb), 0.25rem);
+  backdrop-filter: blur(33px);
+  color: var(--color-white);
+  border-bottom: 1px solid var(--color-primary);
+  resize: none;
+}
+
+.addGame__selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.addGame__selector-list {
+  display: grid;
+  width: 35vw;
+  grid-template-columns: repeat(3, 1fr);
+  background-color: rgba(var(--color-bg-rgb), 0.25rem);
+  backdrop-filter: blur(10px);
+}
+
+.addGame__info-spacer {
+  height: 2.5vh;
+  width: 100%;
+}
+
+.addGame__info-space {
+  height: 10vh;
+  width: 100%;
+}
+
+.addGame__error {
+  text-align: center;
+  text-shadow: 0 0 1rem var(--color-primary);
+}

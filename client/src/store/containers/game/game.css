@@ -9,7 +9,6 @@
   height: 100vh;
   width: 100vw;
   z-index: -10;
-  transition: var(--transition);
 }
 
 .game__background {
@@ -36,23 +35,23 @@
   background: radial-gradient(#0000, #000a);
 }
 
-.game__title{
-    font-size: 3rem;
-    text-shadow: 0 0 1rem var(--color-primary);
+.game__title {
+  font-size: 3rem;
+  text-shadow: 0 0 1rem var(--color-primary);
 }
 
-.game__bottom{
-    background: linear-gradient(transparent,#000a);
-    margin-top: auto;
+.game__bottom {
+  background: linear-gradient(transparent, #000a);
+  margin-top: auto;
+  width: 100%;
 }
 
-.game__info-space{
-    height: 10vh;
-    width: 1px;
+.game__info-space {
+  height: 10vh;
+  width: 1px;
 }
 
-.game__info-spacer{
-    height: 2.5vh;
-    width: 1px;
+.game__info-spacer {
+  height: 2.5vh;
+  width: 1px;
 }
-

@@ -10,6 +10,7 @@ import {
 import isFloat from "validator/es/lib/isFloat";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./addGame.css";
 
 const AddGame = () => {
   const dispatch = useDispatch();
@@ -70,80 +71,101 @@ const AddGame = () => {
     });
   };
   return (
-    <section className="container addGame__container">
-      <form action="" className="addGame__form" onSubmit={submitHandler}>
-        <h3 className="addGame__title">Create Game</h3>
-        <input
-          value={game.name ? game.name : ""}
-          type="text"
-          name="name"
-          id=""
-          className="addGame__text"
-          placeholder="Name"
-          onChange={changeHandler}
-        />
-        <textarea
-          name="description"
-          value={game.description}
-          id=""
-          cols="30"
-          rows="10"
-          placeholder="Description"
-          onChange={changeHandler}
-        />
-        <input
-          type="date"
-          value={game.date}
-          name="released"
-          id=""
-          placeholder="Released"
-          onChange={changeHandler}
-        />
-        <input
-          value={game.rating ? game.rating : ""}
-          type="text"
-          name="rating"
-          id=""
-          className="addGame__text"
-          placeholder="Rating"
-          onChange={changeHandler}
-        />
-        <div className="addGame__selector">
-          <ul className="addGame__selector-list">
-            {genres[0].id &&
-              genres.map(({ id, name }) => (
-                <li key={`genre_${id}`}>
-                  <input
-                    type="checkbox"
-                    name={name}
-                    id={id}
-                    className="genres"
-                    onChange={listHandler}
-                  />
-                  <label>{name}</label>
-                </li>
-              ))}
-          </ul>
-          <ul className="addGame__selector-list">
-            {parent_platforms[0].id &&
-              parent_platforms.map(({ id, name }) => (
-                <li key={`platform_${id}`}>
-                  <input
-                    type="checkbox"
-                    name={name}
-                    id={id}
-                    className="parent_platforms"
-                    onChange={listHandler}
-                  />
-                  <label>{name}</label>
-                </li>
-              ))}
-          </ul>
-        </div>
-        <div className="addGame__selector"></div>
-        <input type="submit" />
-      </form>
-      {error.length !== 0 && <h3 className="addGame__error">{error}</h3>}
+    <section className="addGame">
+      <div className="addGame__bottom">
+        <form
+          action=""
+          className="container addGame__form"
+          onSubmit={submitHandler}
+        >
+          <div className="addGame__info-space" />
+          <h3 className="addGame__title">Create Game</h3>
+          <div className="addGame__info-spacer" />
+          <input
+            value={game.name ? game.name : ""}
+            type="text"
+            name="name"
+            id=""
+            className="addGame__text"
+            placeholder="Name"
+            onChange={changeHandler}
+          />
+          <textarea
+            name="description"
+            value={game.description}
+            id=""
+            cols="30"
+            rows="10"
+            placeholder="Description"
+            onChange={changeHandler}
+          />
+          <div className="addGame__form-sub">
+            <input
+              type="date"
+              value={game.date}
+              name="released"
+              id=""
+              placeholder="Released"
+              onChange={changeHandler}
+            />
+            <input
+              value={game.rating ? game.rating : ""}
+              type="text"
+              name="rating"
+              id=""
+              className="addGame__text"
+              placeholder="Rating"
+              onChange={changeHandler}
+            />
+          </div>
+          <div className="addGame__info-spacer" />
+          <div className="addGame__selector">
+            <ul className="addGame__selector-list">
+              <h2>Genres</h2>
+              {genres[0].id &&
+                genres.map(({ id, name }) => (
+                  <li
+                    key={`genre_${id}`}
+                    className="addGame__selector-list-option"
+                  >
+                    <input
+                      type="checkbox"
+                      name={name}
+                      id={id}
+                      className="genres"
+                      onChange={listHandler}
+                    />
+                    <label>{name}</label>
+                  </li>
+                ))}
+            </ul>
+            <ul className="addGame__selector-list">
+              <h2>Platforms</h2>
+              {parent_platforms[0].id &&
+                parent_platforms.map(({ id, name }) => (
+                  <li key={`platform_${id}`}>
+                    <div className="addGame__selector-list-option">
+                      <input
+                        type="checkbox"
+                        name={name}
+                        id={id}
+                        className="parent_platforms"
+                        onChange={listHandler}
+                      />
+                      <label>{name}</label>
+                    </div>
+                  </li>
+                ))}
+            </ul>
+          </div>
+          <div className="addGame__info-spacer" />
+          <input type="submit" className="btn" />
+          <div className="addGame__info-space">
+            <div className="addGame__info-spacer" />
+            {error.length !== 0 && <h2 className="addGame__error">{error}</h2>}
+          </div>
+        </form>
+      </div>
     </section>
   );
 };
