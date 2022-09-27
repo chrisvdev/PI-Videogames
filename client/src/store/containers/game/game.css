@@ -1,14 +1,9 @@
 .game__container {
-  display: flex;
-  position: fixed;
-  flex-wrap: wrap;
-  background: transparent;
-  left: 0;
-  top: 0;
-  margin: 0;
   height: 100vh;
-  width: 100vw;
-  z-index: -10;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .game__background {
@@ -41,6 +36,7 @@
 }
 
 .game__bottom {
+  margin: 0;
   background: linear-gradient(transparent, #000a);
   margin-top: auto;
   width: 100%;
