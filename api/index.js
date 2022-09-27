@@ -22,8 +22,8 @@ const { conn, dataBase } = require("./src/db.js");
 
 // Syncing all the models at once.
 const startServer = () => {
-  server.listen(3001, () => {
-    console.log("%s listening at 3001");
+  server.listen(80, () => {
+    console.log("Listening at 80");
   });
 };
 const startDB = async () => {
