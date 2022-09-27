@@ -28,7 +28,9 @@ const Display = ({ gamesToDisplay = 15 }) => {
   }, [toSearch]);
   const games = useSelector(selectGames);
   useEffect(() => {
-    (games[0].start || games[0].rejected) &&
+    games &&
+      games[0] &&
+      (games[0].start || games[0].rejected) &&
       (toSearch ? dispatch(getGamesByName(toSearch)) : dispatch(getGames()));
   }, [games]);
   const [page, setPage] = useState(1);
