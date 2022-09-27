@@ -38,7 +38,7 @@ const AddGame = () => {
       setGame({ ...game, rating: parseFloat(game.rating) });
     error.length == 0
       ? axios
-          .post(`http://${document.domain}:3001/videogames`, game)
+          .post(`http://${document.domain}/videogames`, game) //:8080 for dev
           .then(() => {
             setError("Game sended! redirecting to games list");
             setTimeout(() => {

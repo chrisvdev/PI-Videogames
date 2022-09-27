@@ -5,6 +5,7 @@
 
 .display__controller {
   display: flex;
+  flex-wrap: wrap;
   position: sticky;
   flex-direction: row;
   justify-content: flex-start;
@@ -61,12 +62,6 @@ display__controller-segment {
 @media (max-width: 960px) {
   .display__gamesList{
     grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 690px) {
-  .display__controller{
-    flex-direction: column;
   }
 }
 

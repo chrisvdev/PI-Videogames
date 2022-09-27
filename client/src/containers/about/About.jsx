@@ -28,11 +28,21 @@ const About = () => {
         <h1 className="about__title">The Game Catalog</h1>
         <p className="about__text">
           This was madded as a proof of knowledge acquired on the bootcamp of{" "}
-          <a href="https://www.soyhenry.com/" className="about__link">
+          <a
+            href="https://www.soyhenry.com/"
+            className="about__link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             "Soy Henry"
           </a>{" "}
           by{" "}
-          <a href="https://chrisvill2312.github.io/" className="about__link">
+          <a
+            href="https://chrisvill2312.github.io/"
+            className="about__link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Christian Villegas
           </a>{" "}
           whit the next technologies...
@@ -117,6 +127,8 @@ const About = () => {
           <a
             href="https://github.com/chrisvill2312/PI-Videogames"
             className="about__link"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <SiGithub /> GitHub
           </a>

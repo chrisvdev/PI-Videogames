@@ -42,64 +42,86 @@ const Display = ({ gamesToDisplay = 15 }) => {
         dispatch(display());
       })();
   }, [displayToShow]);
-  return displayToShow[0].id ? (
-    <section className="container display__container">
-      <div
-        className="display__controller"
-        style={toSearch ? { display: "none" } : {}}
-      >
-        <div className="display__controller-segment">
+
+  const DisplayController = () => {
+    return (
+      <>
+        <div
+          className="display__controller"
+          style={toSearch ? { display: "none" } : {}}
+        >
           <SortByRating />
           <SortByName />
           <SelectSource />
-        </div>
-        <div className="display__controller-segment">
           <SelectGenre />
+          <div className="display__controller-segment display__controller-pager">
+            <button
+              className="btn display__controller-btn"
+              style={page - 1 === 0 ? { display: "none" } : {}}
+              onClick={() => {
+                setPage(page - 1);
+              }}
+            >
+              <IoIosArrowBack />
+            </button>
+            <p
+              className="display__controller-page"
+              style={
+                displayToShow.length <= gamesToDisplay
+                  ? { display: "none" }
+                  : {}
+              }
+            >
+              {page}
+            </p>
+            <button
+              className="btn display__controller-btn"
+              style={
+                page < Math.ceil(displayToShow.length / gamesToDisplay)
+                  ? {}
+                  : { display: "none" }
+              }
+              onClick={() => {
+                setPage(page + 1);
+              }}
+            >
+              <IoIosArrowForward />
+            </button>
+          </div>
         </div>
-        <div className="display__controller-segment display__controller-pager">
-          <button
-            className="btn display__controller-btn"
-            style={page - 1 === 0 ? { display: "none" } : {}}
-            onClick={() => {
-              setPage(page - 1);
-            }}
-          >
-            <IoIosArrowBack />
-          </button>
-          <p
-            className="display__controller-page"
-            style={
-              displayToShow.length <= gamesToDisplay ? { display: "none" } : {}
-            }
-          >
-            {page}
-          </p>
-          <button
-            className="btn display__controller-btn"
-            style={
-              page < Math.ceil(displayToShow.length / gamesToDisplay)
-                ? {}
-                : { display: "none" }
-            }
-            onClick={() => {
-              setPage(page + 1);
-            }}
-          >
-            <IoIosArrowForward />
-          </button>
-        </div>
-      </div>
-      <section className="display__gamesList">
-        {displayToShow
-          .slice(gamesToDisplay * (page - 1), gamesToDisplay * page)
-          .map((game) => (
-            <GameCard key={`gameCard_${game.id}`} game={game} />
-          ))}
-      </section>
-    </section>
-  ) : (
+      </>
+    );
+  };
+
+  const DisplayData = () => {
+    return (
+      <>
+        <section className="display__gamesList">
+          {displayToShow
+            .slice(gamesToDisplay * (page - 1), gamesToDisplay * page)
+            .map((game) => (
+              <GameCard key={`gameCard_${game.id}`} game={game} />
+            ))}
+        </section>
+      </>
+    );
+  };
+
+  return (
     <section className="container display__container">
-      <h1>Loading...</h1>
+      <DisplayController />
+      {displayToShow &&
+        displayToShow[0] &&
+        ((displayToShow[0].idle && <h1>Waiting for data...</h1>) ||
+          (!(displayToShow[0].toBeFilled === undefined) &&
+            (displayToShow[0].toBeFilled ? (
+              <h1>Preparing data!</h1>
+            ) : (
+              <h1>Nothing to show...</h1>
+            ))) ||
+          (displayToShow[0].id && <DisplayData />) || (
+            <h1>Something went wrong 😔</h1>
+          ))}
     </section>
   );
 };

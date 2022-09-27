@@ -8,7 +8,7 @@ export const FROM_GET_GENRES = "GET_GENRES";
 export const FROM_GET_PLATFORMS = "GET_PLATFORMS";
 export const FROM_FILTER_OR_SORT = "FILTER_OR_SORT";
 export const FROM_START = "START";
-const PORT = 8080; //3001 for dev
+const PORT = undefined; //8080 for dev
 
 let initialState = {
   games: [{ start: true }],

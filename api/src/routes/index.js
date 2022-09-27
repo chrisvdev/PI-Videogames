@@ -39,6 +39,10 @@ router.get("/platforms", async (req, res) => {
     : res.status(500).send(platform);
 });
 
+router.all("*", (req, res) => {
+  res.redirect("/");
+});
+
 router;
 
 module.exports = router;
