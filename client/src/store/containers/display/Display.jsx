@@ -40,7 +40,7 @@ const Display = ({ gamesToDisplay = 15 }) => {
         dispatch(display());
       })();
   }, [displayToShow]);
-  return (
+  return displayToShow[0].id ? (
     <section className="container display__container">
       <div
         className="display__controller"
@@ -88,13 +88,16 @@ const Display = ({ gamesToDisplay = 15 }) => {
         </div>
       </div>
       <section className="display__gamesList">
-        {displayToShow[0].id &&
-          displayToShow
-            .slice(gamesToDisplay * (page - 1), gamesToDisplay * page)
-            .map((game) => (
-              <GameCard key={`gameCard_${game.id}`} game={game} />
-            ))}
+        {displayToShow
+          .slice(gamesToDisplay * (page - 1), gamesToDisplay * page)
+          .map((game) => (
+            <GameCard key={`gameCard_${game.id}`} game={game} />
+          ))}
       </section>
+    </section>
+  ) : (
+    <section className="container display__container">
+      <h1>Loading...</h1>
     </section>
   );
 };

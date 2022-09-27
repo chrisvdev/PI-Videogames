@@ -8,6 +8,7 @@ export const FROM_GET_GENRES = "GET_GENRES";
 export const FROM_GET_PLATFORMS = "GET_PLATFORMS";
 export const FROM_FILTER_OR_SORT = "FILTER_OR_SORT";
 export const FROM_START = "START";
+const PORT = 3001; //3001 for dev
 
 let initialState = {
   games: [{ start: true }],
@@ -24,7 +25,7 @@ let initialState = {
 export const getGames = createAsyncThunk("api/getGames", async () => {
   try {
     const response = await axios.get(
-      `http://${document.domain}:3001/videogames`
+      `http://${document.domain}${PORT?PORT:""}/videogames`
     );
     return response.data;
   } catch (error) {
@@ -37,7 +38,7 @@ export const getGamesByName = createAsyncThunk(
   async (name) => {
     try {
       const response = await axios.get(
-        `http://${document.domain}:3001/videogames?name=${name}`
+        `http://${document.domain}${PORT?PORT:""}/videogames?name=${name}`
       );
       return response.data;
     } catch (error) {
@@ -49,7 +50,7 @@ export const getGamesByName = createAsyncThunk(
 export const getGameById = createAsyncThunk("api/getGameById", async (id) => {
   try {
     const response = await axios.get(
-      `http://${document.domain}:3001/videogame/${id}`
+      `http://${document.domain}${PORT?PORT:""}/videogame/${id}`
     );
     return response.data;
   } catch (error) {
@@ -59,7 +60,7 @@ export const getGameById = createAsyncThunk("api/getGameById", async (id) => {
 
 export const getGenres = createAsyncThunk("api/getGenres", async () => {
 try {
-    const response = await axios.get(`http://${document.domain}:3001/genres`);
+    const response = await axios.get(`http://${document.domain}${PORT?PORT:""}/genres`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -68,7 +69,7 @@ try {
 
 export const getPlatforms = createAsyncThunk("api/getPlatforms", async () => {
 try {
-    const response = await axios.get(`http://${document.domain}:3001/platforms`);
+    const response = await axios.get(`http://${document.domain}${PORT?PORT:""}/platforms`);
     return response.data;
   } catch (error) {
     console.error(error);

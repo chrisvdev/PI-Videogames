@@ -52,7 +52,9 @@ const Game = () => {
       </div>
     </section>
   ) : (
-    <h1>Loading...</h1>
+    <section className="game__container">
+      <h1>Loading...</h1>
+    </section>
   );
 };
 
