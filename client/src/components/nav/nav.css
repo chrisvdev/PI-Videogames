@@ -1,6 +1,7 @@
 .nav__container {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: flex-start;
   background: rgba(var(--color-bg-rgb), 0.2);
   backdrop-filter: blur(10px);

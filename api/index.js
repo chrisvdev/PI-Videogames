@@ -27,7 +27,7 @@ const startServer = () => {
   });
 };
 const startDB = async () => {
-  return await conn.sync({ force: true });
+  return await conn.sync({ force: false });
 };
 
 const start = async () => {

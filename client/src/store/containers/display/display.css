@@ -12,8 +12,19 @@
   backdrop-filter: blur(10px);
 }
 
+display__controller-segment {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  min-width: fit-content;
+  max-width: fit-content;
+}
+
 .display__controller-pager {
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   margin-left: auto;
 }
 
@@ -50,6 +61,12 @@
 @media (max-width: 960px) {
   .display__gamesList{
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 690px) {
+  .display__controller{
+    flex-direction: column;
   }
 }
 

@@ -46,11 +46,15 @@ const Display = ({ gamesToDisplay = 15 }) => {
         className="display__controller"
         style={toSearch ? { display: "none" } : {}}
       >
-        <SortByRating />
-        <SortByName />
-        <SelectSource />
-        <SelectGenre />
-        <div className="display__controller-pager">
+        <div className="display__controller-segment">
+          <SortByRating />
+          <SortByName />
+          <SelectSource />
+        </div>
+        <div className="display__controller-segment">
+          <SelectGenre />
+        </div>
+        <div className="display__controller-segment display__controller-pager">
           <button
             className="btn display__controller-btn"
             style={page - 1 === 0 ? { display: "none" } : {}}
