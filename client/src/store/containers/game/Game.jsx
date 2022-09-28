@@ -29,18 +29,32 @@ const Game = () => {
           <div className="game__info-space" />
           <h1 className="game__title">{game.name}</h1>
           <div className="game__genres">
-            {game.genres.map(({ id, name }) => (
-              <small key={`game_genre-${id}`}>{name}</small>
-            ))}
+            {game &&
+              game.genres &&
+              game.genres[0] &&
+              game.genres[0].id &&
+              game.genres.map(({ id, name }) => (
+                <small key={`game_genre-${id}`}>{name}</small>
+              ))}
           </div>
           <div className="game__platforms">
-            {game.parent_platforms.map(({ platform }) => (
-              <small key={`game_platform-${platform.id}`} className="platform">
-                {platform.name}
-              </small>
-            ))}
+            {game &&
+              game.parent_platforms &&
+              game.parent_platforms[0] &&
+              game.parent_platforms[0].platform &&
+              game.parent_platforms[0].platform.id &&
+              game.parent_platforms.map(({ platform }) => (
+                <small
+                  key={`game_platform-${platform.id}`}
+                  className="platform"
+                >
+                  {platform.name}
+                </small>
+              ))}
           </div>
-          <small className="released">{game.released}</small>
+          <small className="released">
+            {game.released && game.released.length > 4 && game.released}
+          </small>
           <small className="rating">{`Rating: ${game.rating}`}</small>
           <div className="game__info-spacer" />
           <div
