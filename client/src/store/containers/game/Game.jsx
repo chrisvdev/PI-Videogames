@@ -52,10 +52,10 @@ const Game = () => {
                 </small>
               ))}
           </div>
-          <small className="released">
-            {game.released && game.released.length > 4 && game.released}
-          </small>
-          <small className="rating">{`Rating: ${game.rating}`}</small>
+          {game.released && <small className="released">{game.released}</small>}
+          {game.rating && (
+            <small className="rating">{`Rating: ${game.rating}`}</small>
+          )}
           <div className="game__info-spacer" />
           <div
             className="game__description"
