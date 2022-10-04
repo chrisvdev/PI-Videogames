@@ -8,7 +8,7 @@ export const FROM_GET_GENRES = "GET_GENRES";
 export const FROM_GET_PLATFORMS = "GET_PLATFORMS";
 export const FROM_FILTER_OR_SORT = "FILTER_OR_SORT";
 export const FROM_START = "START";
-const PORT = undefined; //8080 for dev
+const PORT = 8080; //8080 for dev
 
 let initialState = {
   games: [{ start: true }],
@@ -25,7 +25,7 @@ let initialState = {
 export const getGames = createAsyncThunk("api/getGames", async () => {
   try {
     const response = await axios.get(
-      `http://${document.domain}${PORT?`:${PORT}`:""}/videogames`
+      `http://${document.domain}${PORT ? `:${PORT}` : ""}/videogames`
     );
     return response.data;
   } catch (error) {
@@ -38,7 +38,9 @@ export const getGamesByName = createAsyncThunk(
   async (name) => {
     try {
       const response = await axios.get(
-        `http://${document.domain}${PORT?`:${PORT}`:""}/videogames?name=${name}`
+        `http://${document.domain}${
+          PORT ? `:${PORT}` : ""
+        }/videogames?name=${name}`
       );
       return response.data;
     } catch (error) {
@@ -50,7 +52,7 @@ export const getGamesByName = createAsyncThunk(
 export const getGameById = createAsyncThunk("api/getGameById", async (id) => {
   try {
     const response = await axios.get(
-      `http://${document.domain}${PORT?`:${PORT}`:""}/videogame/${id}`
+      `http://${document.domain}${PORT ? `:${PORT}` : ""}/videogame/${id}`
     );
     return response.data;
   } catch (error) {
@@ -59,8 +61,10 @@ export const getGameById = createAsyncThunk("api/getGameById", async (id) => {
 });
 
 export const getGenres = createAsyncThunk("api/getGenres", async () => {
-try {
-    const response = await axios.get(`http://${document.domain}${PORT?`:${PORT}`:""}/genres`);
+  try {
+    const response = await axios.get(
+      `http://${document.domain}${PORT ? `:${PORT}` : ""}/genres`
+    );
     return response.data;
   } catch (error) {
     console.error(error);
@@ -68,8 +72,10 @@ try {
 });
 
 export const getPlatforms = createAsyncThunk("api/getPlatforms", async () => {
-try {
-    const response = await axios.get(`http://${document.domain}${PORT?`:${PORT}`:""}/platforms`);
+  try {
+    const response = await axios.get(
+      `http://${document.domain}${PORT ? `:${PORT}` : ""}/platforms`
+    );
     return response.data;
   } catch (error) {
     console.error(error);
@@ -82,6 +88,7 @@ export const apiSlice = createSlice({
   reducers: {
     start: (state) => {
       state.games = [{ start: true }];
+      state.search = [{ start: true }];
       state.game = { noGame: true };
       state.genres = [{ start: true }];
       state.parent_platforms = [{ start: true }];
@@ -90,6 +97,12 @@ export const apiSlice = createSlice({
       state.sortByName = null;
       state.sortByRating = null;
       state.display = [{ idle: FROM_START }];
+    },
+    startGame: (state) => {
+      state.game = { noGame: true };
+    },
+    startSearch: (state) => {
+      state.search = [{ start: true }];
     },
     filterByGenre: (state, action) => {
       state.filterByGenre = action.payload;
@@ -101,11 +114,11 @@ export const apiSlice = createSlice({
     },
     sortByName: (state, action) => {
       state.sortByName = action.payload;
-      state.sortByRating = null;
+      //state.sortByRating = null;  aparentemente tiene que quedar según lo que quiere Henry
       state.display = [{ toBeFilled: FROM_FILTER_OR_SORT }];
     },
     sortByRating: (state, action) => {
-      state.sortByName = null;
+      //state.sortByName = null; aparentemente tiene que quedar según lo que quiere Henry
       state.sortByRating = action.payload;
       state.display = [{ toBeFilled: FROM_FILTER_OR_SORT }];
     },
@@ -154,19 +167,13 @@ export const apiSlice = createSlice({
         state.display = [{ toBeFilled: FROM_GET_GAMES }];
       })
       .addCase(getGamesByName.pending, (state) => {
-        state.games = [{ loading: FROM_SEARCH_GAMES }];
-        state.filterByGenre = 0;
-        state.filterBySource = null;
-        state.sortByName = null;
-        state.sortByRating = null;
-        state.display = [{ idle: FROM_SEARCH_GAMES }];
+        state.search = [{ loading: FROM_SEARCH_GAMES }];
       })
       .addCase(getGamesByName.rejected, (state) => {
-        state.games = [{ rejected: FROM_SEARCH_GAMES }];
+        state.search = [{ rejected: FROM_SEARCH_GAMES }];
       })
       .addCase(getGamesByName.fulfilled, (state, action) => {
-        state.games = action.payload;
-        state.display = [{ toBeFilled: FROM_SEARCH_GAMES }];
+        state.search = action.payload;
       })
       .addCase(getGameById.pending, (state) => {
         state.game = { loading: FROM_SEARCH_GAME };
@@ -200,6 +207,7 @@ export const apiSlice = createSlice({
 
 export const selectGames = (state) => state.api.games;
 export const selectGame = (state) => state.api.game;
+export const selectSearch = (state) => state.api.search;
 export const selectGenres = (state) => state.api.genres;
 export const selectGenreFilter = (state) => state.api.filterByGenre;
 export const selectSourceFilter = (state) => state.api.filterBySource;
@@ -210,6 +218,8 @@ export const selectPlatforms = (state) => state.api.parent_platforms;
 
 export const {
   start,
+  startGame,
+  startSearch,
   filterByGenre,
   filterBySource,
   sortByName,

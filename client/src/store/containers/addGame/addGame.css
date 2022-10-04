@@ -1,5 +1,5 @@
 .addGame {
-  height: 100vh;
+  min-height: calc(100vh - 2.75rem);
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -75,12 +75,11 @@
 }
 
 .addGame__info-space {
-  height: 10vh;
+  height: 7.5vh;
   width: 100%;
 }
 
 .addGame__error {
-  text-align: center;
   text-shadow: 0 0 1rem var(--color-primary);
 }
 

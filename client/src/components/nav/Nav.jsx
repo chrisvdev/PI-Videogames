@@ -16,7 +16,7 @@ const Nav = () => {
         Games
       </NavLink>
       <NavLink
-        to={"/games/game"}
+        to={"/games/game/add"}
         className={(isActive) =>
           !isActive ? "btn nav__btn nav__btn-active" : "btn nav__btn"
         }

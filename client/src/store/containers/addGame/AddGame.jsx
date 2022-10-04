@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./addGame.css";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  start,
   selectGenres,
   selectPlatforms,
   getGenres,
@@ -19,37 +20,46 @@ const AddGame = () => {
   const parent_platforms = useSelector(selectPlatforms);
   const [game, setGame] = useState({ genres: [], parent_platforms: [] });
   const [error, setError] = useState("");
+  const [modifiable, setModifiable] = useState(true);
   const changeHandler = (e) => {
-    setGame({ ...game, [e.target.name]: e.target.value });
+    modifiable && setGame({ ...game, [e.target.name]: e.target.value });
   };
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    let error = "";
-    (game.name && game.name.length > 0) ||
-      (error += "You need to give a name. ");
-    (game.description && game.description.length > 0) ||
-      (error += "You need to give a description. ");
-    game.parent_platforms.length > 0 ||
-      (error += "You need to choice almost one platform. ");
-    (isFloat(game.rating ? game.rating : "0", { min: 0, max: 5 }) ||
-      !(error +=
-        "You need to give a valid rating (number between 0.0 to 5.0).")) &&
-      error.length === 0 &&
-      setGame({ ...game, rating: parseFloat(game.rating) });
-    error.length == 0
-      ? axios
-          .post(`http://${document.domain}/videogames`, game) //:8080 for dev
-          .then(() => {
-            setError("Game sended! redirecting to games list");
-            setTimeout(() => {
-              navigate("/games");
-            }, 3000);
-          })
-          .catch((reason) => {
-            setError("something went wrong, see the console for more info...");
-            console.error(reason);
-          })
-      : setError(error);
+    setModifiable(false);
+    let response = undefined;
+    setGame({ ...game, rating: parseFloat(game.rating) });
+    try {
+      response = await axios.get(
+        `http://${document.domain}:8080/videogames?name=${game.name}`
+      );
+    } catch (error) {
+      console.error(error);
+      response = null;
+    }
+    response
+      ? !response.data
+          .map((game) => game.name)
+          .find((name) => name.toLowerCase() === game.name.toLowerCase())
+        ? axios
+            .post(`http://${document.domain}:8080/videogames`, game) //:8080 for dev
+            .then(() => {
+              setError("Game sended! redirecting to games list");
+              setTimeout(() => {
+                setGame({ genres: [], parent_platforms: [] });
+                dispatch(start());
+                navigate("/games");
+              }, 3000);
+            })
+            .catch((reason) => {
+              setError(
+                "something went wrong, see the console for more info..."
+              );
+              console.error(reason);
+            })
+        : setError(`${game.name} is already a game!`)
+      : setError("Something went wrong 😔, See de console for details...");
+    setModifiable(true);
   };
   useEffect(() => {
     genres && genres[0].start && dispatch(getGenres());
@@ -57,6 +67,19 @@ const AddGame = () => {
   useEffect(() => {
     parent_platforms && parent_platforms[0].start && dispatch(getPlatforms());
   }, [parent_platforms]);
+  useEffect(() => {
+    let error = "";
+    (game.name && game.name.length > 0) || (error += "Give a name. ");
+    (game.description && game.description.length > 0) ||
+      (error += "Give a description. ");
+    game.parent_platforms.length > 0 ||
+      (error += "Choice almost one platform. ");
+    isFloat(game.rating ? game.rating : "0", { min: 0, max: 5 }) ||
+      (error += "Give a valid rating (number between 0.0 to 5.0).");
+    error.length > 0 &&
+      (error = `In order to create a game you need to: ${error}`);
+    setError(error);
+  }, [game]);
   const listHandler = ({ target }) => {
     setGame({
       ...game,
@@ -80,7 +103,10 @@ const AddGame = () => {
         >
           <div className="addGame__info-space" />
           <h3 className="addGame__title">Create Game</h3>
-          <div className="addGame__info-spacer" />
+          <div className="addGame__info-space">
+            <div className="addGame__info-spacer" />
+            {error.length !== 0 && <h2 className="addGame__error">{error}</h2>}
+          </div>
           <input
             value={game.name ? game.name : ""}
             type="text"
@@ -151,6 +177,12 @@ const AddGame = () => {
                         id={id}
                         className="parent_platforms"
                         onChange={listHandler}
+                        defaultChecked={
+                          game.parent_platforms
+                            .map((platform) => platform.name)
+                            .find((platformName) => platformName === name) !==
+                          undefined
+                        }
                       />
                       <label>{name}</label>
                     </div>
@@ -159,10 +191,12 @@ const AddGame = () => {
             </ul>
           </div>
           <div className="addGame__info-spacer" />
-          <input type="submit" className="btn" />
           <div className="addGame__info-space">
-            <div className="addGame__info-spacer" />
-            {error.length !== 0 && <h2 className="addGame__error">{error}</h2>}
+            <input
+              type="submit"
+              className="btn"
+              style={error.length > 0 ? { display: "none" } : {}}
+            />
           </div>
         </form>
       </div>

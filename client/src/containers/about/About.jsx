@@ -27,7 +27,7 @@ const About = () => {
       <div className="about">
         <h1 className="about__title">The Game Catalog</h1>
         <p className="about__text">
-          This was madded as a proof of knowledge acquired on the{" "}
+          This was made as a proof of knowledge acquired on the{" "}
           <a
             href="https://www.soyhenry.com/"
             className="about__link"

@@ -8,30 +8,20 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   display,
   getGames,
-  getGamesByName,
   selectDisplay,
   selectGames,
-  start,
 } from "../../api";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import "./display.css";
-import { useParams } from "react-router-dom";
 
 const Display = ({ gamesToDisplay = 15 }) => {
-  const { toSearch } = useParams();
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(start());
-  }, []);
-  useEffect(() => {
-    dispatch(start());
-  }, [toSearch]);
   const games = useSelector(selectGames);
   useEffect(() => {
     games &&
       games[0] &&
       (games[0].start || games[0].rejected) &&
-      (toSearch ? dispatch(getGamesByName(toSearch)) : dispatch(getGames()));
+      dispatch(getGames());
   }, [games]);
   const [page, setPage] = useState(1);
   const displayToShow = useSelector(selectDisplay);
@@ -42,13 +32,13 @@ const Display = ({ gamesToDisplay = 15 }) => {
         dispatch(display());
       })();
   }, [displayToShow]);
+  const lastPage = Math.ceil(displayToShow.length / gamesToDisplay);
 
   const DisplayController = () => {
     return (
       <>
         <div
           className="display__controller"
-          style={toSearch ? { display: "none" } : {}}
         >
           <SortByRating />
           <SortByName />
@@ -72,12 +62,12 @@ const Display = ({ gamesToDisplay = 15 }) => {
                   : {}
               }
             >
-              {page}
+              {`Page ${page} of ${lastPage}`}
             </p>
             <button
               className="btn display__controller-btn"
               style={
-                page < Math.ceil(displayToShow.length / gamesToDisplay)
+                page < lastPage
                   ? {}
                   : { display: "none" }
               }
