@@ -70,7 +70,7 @@
 }
 
 .addGame__info-spacer {
-  height: 2.5vh;
+  min-height: 2.5vh;
   width: 100%;
 }
 
