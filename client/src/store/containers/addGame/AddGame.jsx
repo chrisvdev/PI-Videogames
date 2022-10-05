@@ -31,7 +31,7 @@ const AddGame = () => {
     setGame({ ...game, rating: parseFloat(game.rating) });
     try {
       response = await axios.get(
-        `http://${document.domain}:8080/videogames?name=${game.name}`
+        `http://${document.domain}/videogames?name=${game.name}`
       );
     } catch (error) {
       console.error(error);
@@ -42,7 +42,7 @@ const AddGame = () => {
           .map((game) => game.name)
           .find((name) => name.toLowerCase() === game.name.toLowerCase())
         ? axios
-            .post(`http://${document.domain}:8080/videogames`, game) //:8080 for dev
+            .post(`http://${document.domain}/videogames`, game) //:8080 for dev
             .then(() => {
               setError("Game sended! redirecting to games list");
               setTimeout(() => {
@@ -74,7 +74,7 @@ const AddGame = () => {
       (error += "Give a description. ");
     game.parent_platforms.length > 0 ||
       (error += "Choice almost one platform. ");
-    isFloat(game.rating ? game.rating : "0", { min: 0, max: 5 }) ||
+    isFloat(game.rating ? `${game.rating}` : "0", { min: 0, max: 5 }) ||
       (error += "Give a valid rating (number between 0.0 to 5.0).");
     error.length > 0 &&
       (error = `In order to create a game you need to: ${error}`);
