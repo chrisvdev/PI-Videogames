@@ -17,12 +17,15 @@
 //     =====`-.____`.___ \_____/___.-`___.-'=====
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+require("dotenv").config();
 const server = require("./src/app.js");
+const { PORT } = process.env
 const { conn, dataBase } = require("./src/db.js");
+
 
 // Syncing all the models at once.
 const startServer = () => {
-  server.listen(8080, () => {
+  server.listen(PORT ? Number(PORT) : 80, () => {
     console.log("Listening at 8080");
   });
 };
@@ -31,9 +34,9 @@ const startDB = async () => {
 };
 
 const start = async () => {
-await startDB();
-startServer();
-dataBase.createGenres();
+  await startDB();
+  startServer();
+  dataBase.createGenres();
 }
 
 start();
