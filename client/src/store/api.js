@@ -25,7 +25,7 @@ let initialState = {
 export const getGames = createAsyncThunk("api/getGames", async () => {
   try {
     const response = await axios.get(
-      `http://${document.domain}${PORT ? `:${PORT}` : ""}/videogames`
+      `${document.location.origin}${PORT ? `:${PORT}` : ""}/videogames`
     );
     return response.data;
   } catch (error) {
@@ -38,8 +38,7 @@ export const getGamesByName = createAsyncThunk(
   async (name) => {
     try {
       const response = await axios.get(
-        `http://${document.domain}${
-          PORT ? `:${PORT}` : ""
+        `${document.location.origin}${PORT ? `:${PORT}` : ""
         }/videogames?name=${name}`
       );
       return response.data;
@@ -52,7 +51,7 @@ export const getGamesByName = createAsyncThunk(
 export const getGameById = createAsyncThunk("api/getGameById", async (id) => {
   try {
     const response = await axios.get(
-      `http://${document.domain}${PORT ? `:${PORT}` : ""}/videogame/${id}`
+      `${document.location.origin}${PORT ? `:${PORT}` : ""}/videogame/${id}`
     );
     return response.data;
   } catch (error) {
@@ -63,7 +62,7 @@ export const getGameById = createAsyncThunk("api/getGameById", async (id) => {
 export const getGenres = createAsyncThunk("api/getGenres", async () => {
   try {
     const response = await axios.get(
-      `http://${document.domain}${PORT ? `:${PORT}` : ""}/genres`
+      `${document.location.origin}${PORT ? `:${PORT}` : ""}/genres`
     );
     return response.data;
   } catch (error) {
@@ -74,7 +73,7 @@ export const getGenres = createAsyncThunk("api/getGenres", async () => {
 export const getPlatforms = createAsyncThunk("api/getPlatforms", async () => {
   try {
     const response = await axios.get(
-      `http://${document.domain}${PORT ? `:${PORT}` : ""}/platforms`
+      `${document.location.origin}${PORT ? `:${PORT}` : ""}/platforms`
     );
     return response.data;
   } catch (error) {
